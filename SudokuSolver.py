@@ -18,7 +18,7 @@ current_matrix = np.array(initial_matrix, copy=True)
 boxes = []
 buttons = [[None for y in range(9)] for x in range(9)]
 
-app = App(title="Sudoky solver", layout="grid", height=500, width = 600)
+app = App(title="Sudoku solver", layout="grid", height=500, width = 600)
 
 for mx in range(0, 3):
     for my in range(0, 3):
