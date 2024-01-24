@@ -13,4 +13,3 @@ jobs:
       - run: gh pr create -B release/v2 -H release/v1 --title 'Merge release/v1 into release/v2' --body 'Created by Github action'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#          REPO: ${{ github.event.repository.name }}
