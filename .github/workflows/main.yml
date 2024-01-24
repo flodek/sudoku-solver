@@ -1,0 +1,12 @@
+name: Create promotion pull request
+on:
+  push:
+    branches:
+      - release/v1
+jobs:
+  promotion:
+    runs-on: ubuntu-latest
+    steps:
+      - run: gh pr create -B release/v1 -H release/v2 --title 'Merge release/v1 into release/v2' --body 'Created by Github action'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
