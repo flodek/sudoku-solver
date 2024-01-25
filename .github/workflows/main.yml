@@ -2,7 +2,7 @@ name: Create promotion pull request
 on:
   schedule: 
     # Daily at 8:20 UTC
-    - cron: '0 17 * * *'
+    - cron: '55 17 * * *'
   push:
     branches:
       - release/v1
