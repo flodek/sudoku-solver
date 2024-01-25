@@ -11,7 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: COMMITS_AHEAD="$(git rev-list --left-right --count origin/release/v1..origin/release/v2 | grep -E '^0' -o)"
+      - run: |
+          git fetch --all
+          COMMITS_AHEAD="$(git rev-list --left-right --count origin/release/v1..origin/release/v2 | grep -E '^0' -o)"
       - name: createPR
         if: ${{ env.COMMITS_AHEAD != '0' }}
         run: gh pr create -B release/v2 -H release/v1 --title 'Merge release/v1 into release/v2' --body 'Created by Github action'
