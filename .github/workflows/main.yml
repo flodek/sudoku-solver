@@ -10,11 +10,17 @@ jobs:
   promotion:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - run: |
-          git fetch --all
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+            fetch-depth: 0
+
+      - name: Compare branches
+        run: |
+          # git fetch --all
           echo "COMMITS_AHEAD=$(git rev-list --left-right --count origin/release/v2..origin/release/v1 | grep -E '0$' -o)"  >> $GITHUB_ENV
-      - name: createPR
+
+      - name: Create PR
         if: ${{ env.COMMITS_AHEAD != '0' }}
         run: gh pr create -B release/v2 -H release/v1 --title 'Merge release/v1 into release/v2' --body 'Created by Github action'
         env:
