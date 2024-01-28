@@ -1,4 +1,4 @@
-name: Create promotion pull request
+name: Create sync pull request
 on:
   schedule: 
     # Daily at 8:20 UTC
@@ -6,6 +6,11 @@ on:
   push:
     branches:
       - release/v1
+
+env:
+  SOURCE: release/v1
+  DESTINATION: release/v2
+  
 jobs:
   promotion:
     runs-on: ubuntu-latest
@@ -15,13 +20,11 @@ jobs:
         with:
             fetch-depth: 0
 
-      - name: Compare branches
-        run: |
-          # git fetch --all
-          echo "COMMITS_AHEAD=$(git rev-list --left-right --count origin/release/v2..origin/release/v1 | grep -E '0$' -o)"  >> $GITHUB_ENV
+      - name: Compare Branches
+        run: echo "COMMITS_AHEAD=$(git rev-list --left-right --count origin/$DESTINATION..origin/$SOURCE | grep -E '0$' -o)"  >> $GITHUB_ENV
 
       - name: Create PR
         if: ${{ env.COMMITS_AHEAD != '0' }}
-        run: gh pr create -B release/v2 -H release/v1 --title 'Merge release/v1 into release/v2' --body 'Created by Github action'
+        run: gh pr create -B $DESTINATION -H $SOURCE --title 'Sync $SOURCE to $DESTINATION' --body 'Sync $SOURCE to $DESTINATION by Github Action'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
