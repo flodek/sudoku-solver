@@ -1,8 +1,8 @@
 name: Create sync pull request
 on:
   schedule: 
-    # Daily at 8:20 UTC
-    - cron: '55 17 * * *'
+    # Daily at 14:00 UTC
+    - cron: '0 14 * * *'
   push:
     branches:
       - release/v1
@@ -25,6 +25,6 @@ jobs:
 
       - name: Create PR
         if: ${{ env.COMMITS_AHEAD != '0' }}
-        run: gh pr create -B $DESTINATION -H $SOURCE --title "Sync $SOURCE to $DESTINATION" --body "Sync $SOURCE to $DESTINATION by Github Action"
+        run: gh pr create -B $DESTINATION -H $SOURCE --title "Sync $DESTINATION with $SOURCE" --body "Sync $DESTINATION with $SOURCE by Github Action"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
